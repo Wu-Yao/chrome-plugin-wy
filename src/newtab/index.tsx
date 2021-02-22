@@ -4,10 +4,15 @@ import ReactDOM from "react-dom";
 import "./index.css";
 function NewTab() {
   const [bookmarkArray, setBookmarkArray] = useState([]);
+  const [historyArray, setHistoryArray] = useState([]);
 
   useEffect(() => {
     chrome.bookmarks.getTree(function (bookmarkArray) {
       setBookmarkArray(bookmarkArray[0].children[0].children);
+    });
+    chrome.history.search({ text: "" }, (res) => {
+      const array = Array.from(new Set(res)).splice(0, 10);
+      setHistoryArray(array);
     });
   }, []);
 
@@ -27,6 +32,18 @@ function NewTab() {
               </ul>
             </div>
           )
+      )}
+      {historyArray.length && (
+        <div className="tab">
+          <span className="bookmark" data-content="历史记录"></span>
+          <ul>
+            {historyArray.map((item, i) => (
+              <a href={item.url} key={i}>
+                <li>{item.title}</li>
+              </a>
+            ))}
+          </ul>
+        </div>
       )}
     </div>
   );

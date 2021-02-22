@@ -17,13 +17,15 @@
         "scripts": [
             "dist/background.js"
         ],
-        "persistent": false
+        "persistent": true
     },
     "permissions": [
         "bookmarks",
         "activeTab",
         "storage",
+        "webRequest",
         "tabs",
+        "history",
         "<all_urls>"
     ],
     "content_scripts": [
